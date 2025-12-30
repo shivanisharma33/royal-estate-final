@@ -87,9 +87,9 @@ export const About = () => {
                 </motion.div>
               ))}
             </div>
-          </motion.div>
+          </motion.div>       
         </div>
-      </div>
+      </div>      
     </section>
   );
 };
