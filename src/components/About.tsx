@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import officeReception from "@/assets/office-reception.jpg";
+import officeReception from "@/assets/property-1.jpg";
 
 export const About = () => {
   const ref = useRef(null);
@@ -71,7 +71,7 @@ export const About = () => {
               {[
                 { number: "500+", label: "Properties Sold" },
                 { number: "200+", label: "Happy Families" },
-                { number: "50Cr+", label: "Investment Managed" },
+                { number: "100Cr+", label: "Investment Managed" },
               ].map((stat, index) => (
                 <motion.div
                   key={stat.label}
