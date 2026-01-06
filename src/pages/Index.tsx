@@ -3,7 +3,7 @@ import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
 import { Services } from "@/components/Services";
 import { Investors } from "@/components/Investors";
-import { Properties } from "@/components/Properties";
+import { InvestorInvestmentTypes } from "@/components/InvestorInvestmentTypes";
 import { Areas } from "@/components/Areas";
 import { WhyChooseUs } from "@/components/WhyChooseUs";
 import { FAQ } from "@/components/FAQ";
@@ -17,19 +17,25 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Chandigarh Royal Real Estate Pvt. Ltd. | Luxury Properties in Mohali</title>
+        <title>
+          Chandigarh Royal Real Estate Pvt. Ltd. | Luxury Properties in Mohali
+        </title>
         <meta
           name="description"
           content="Chandigarh Royal Real Estate - Premium property investment advisors in Mohali. Luxury homes, smart investments, and trusted advisory services in S.A.S. Nagar."
         />
       </Helmet>
+
       <main className="min-h-screen bg-background">
         <Navbar />
         <Hero />
         <About />
         <Services />
         <Investors />
-        <Properties />
+
+        {/* ✅ Investor Investment Section */}
+        <InvestorInvestmentTypes />
+
         <Areas />
         <WhyChooseUs />
         <FAQ />
