@@ -37,13 +37,22 @@ export const Navbar = () => {
     >
       <div className="container-luxury">
         <div className="flex items-center justify-between h-20 md:h-24">
-          {/* Logo */}
+          
+          {/* LOGO (INCREASED SIZE) */}
           <a href="#home" className="flex items-center">
-            <img
-              src={logo}
-              alt="Chandigarh Royal Real Estate"
-              className="h-12 md:h-16 w-auto drop-shadow-[0_0_20px_rgba(212,165,116,0.5)]"
-            />
+           <img
+  src={logo}
+  alt="Chandigarh Royal Real Estate"
+  className="
+    h-20 w-32
+    md:h-28 md:w-44
+    lg:h-32 lg:w-52
+    transition-all duration-300
+    object-contain
+    drop-shadow-[0_0_28px_rgba(212,165,116,0.6)]
+  "
+/>
+
           </a>
 
           {/* Desktop Navigation */}

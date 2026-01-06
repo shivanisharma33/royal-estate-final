@@ -40,11 +40,19 @@ export const Footer = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Logo & Description */}
           <div className="lg:col-span-1">
-            <img
-              src={logo}
-              alt="Chandigarh Royal Real Estate"
-              className="h-12 w-auto mb-6 drop-shadow-[0_0_15px_rgba(212,165,116,0.4)]"
-            />
+           <img
+  src={logo}
+  alt="Chandigarh Royal Real Estate"
+  className="
+    h-20 w-32
+    md:h-28 md:w-44
+    lg:h-32 lg:w-52
+    transition-all duration-300
+    object-contain
+    drop-shadow-[0_0_28px_rgba(212,165,116,0.6)]
+  "
+/>
+
             <p className="text-muted-foreground text-sm leading-relaxed mb-6">
               Your trusted partner for premium real estate investments in
               Mohali. Building trust, creating royal investments since 2014.
@@ -113,7 +121,7 @@ export const Footer = () => {
               <li className="flex items-start gap-3">
                 <Phone className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                 <span className="text-muted-foreground text-sm">
-                  +91 98765 43210
+                  +91 9915006958
                 </span>
               </li>
             </ul>
@@ -149,11 +157,19 @@ export const Footer = () => {
       {/* Centered Logo at Very Bottom */}
       <div className="border-t border-border py-8">
         <div className="flex justify-center">
-          <img
-            src={logo}
-            alt="Chandigarh Royal"
-            className="h-10 w-auto opacity-50 hover:opacity-100 transition-opacity drop-shadow-[0_0_10px_rgba(212,165,116,0.3)]"
-          />
+         <img
+  src={logo}
+  alt="Chandigarh Royal Real Estate"
+  className="
+    h-20 w-32
+    md:h-28 md:w-44
+    lg:h-32 lg:w-52
+    transition-all duration-300
+    object-contain
+    drop-shadow-[0_0_28px_rgba(212,165,116,0.6)]
+  "
+/>
+
         </div>
       </div>
     </footer>

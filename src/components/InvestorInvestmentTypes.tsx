@@ -1,115 +1,356 @@
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { ArrowRight } from "lucide-react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
+import { useRef, useState, useMemo } from "react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 
 /* ===============================
-   IMAGE IMPORTS (VALID PATHS)
+   IMAGE IMPORTS
 ================================ */
 import villa from "@/assets/villa.png";
-import penthouse from "@/assets/penthouse.png";
 import apartment from "@/assets/apartment.png";
 import plot from "@/assets/plot.png";
-import commercial from "@/assets/sco.png";
+
+import officeCabin from "@/assets/office-cabin.jpg";
+import officeReception from "@/assets/cor.png";
+import mall from "@/assets/mall2.jpg";
+import foodEntertainment from "@/assets/food.jpg";
+import agriculture from "@/assets/plot.png";
 
 /* ===============================
-   INVESTMENT DATA
+   PROPERTY TYPE MAP
+================================ */
+const PROPERTY_TYPES = {
+  Residential: [
+    "Flat",
+    "House / Villa",
+    "Society Apartment",
+    "Plot",
+    "Farm House",
+    "1 BHK",
+    "2 BHK",
+    "3 BHK",
+    "4 BHK",
+    "5 BHK",
+    "5+ BHK",
+  ],
+  Commercial: [
+    "Office Space",
+    "Shop / Showroom",
+    "Food & Entertainment",
+    "Mall / Multiplex",
+    "Hotel",
+    "Commercial Land",
+    "Warehouse / Godown",
+    "Industrial Building",
+    "Industrial Shed",
+  ],
+  Agricultural: ["Agricultural Land"],
+};
+
+/* ===============================
+   DATA
 ================================ */
 const investmentTypes = [
   {
-    title: "Luxury Villas",
-    description:
-      "Independent luxury villas offering privacy, prestige, and strong long-term capital appreciation.",
-    image: villa,
-  },
-  {
-    title: "Penthouse Residences",
-    description:
-      "Ultra-premium penthouses designed for elite investors seeking exclusivity and high asset value.",
-    image: penthouse,
-  },
-  {
-    title: "Luxury Apartments",
-    description:
-      "Premium apartments in prime locations with excellent rental demand and stable appreciation.",
+    title: "Residential Society Apartments",
+    category: "Residential",
+    propertyType: "Society Apartment",
+    location: "Mohali",
+    price: 85,
+    popularity: 78,
+    createdAt: "2025-12-20",
     image: apartment,
+    description:
+      "Well-planned residential societies offering security, amenities, and rental demand.",
   },
   {
-    title: "Residential Plots",
+    title: "Luxury Independent Villa",
+    category: "Residential",
+    propertyType: "House / Villa",
+    location: "New Chandigarh",
+    price: 420,
+    popularity: 95,
+    createdAt: "2026-01-02",
+    image: villa,
     description:
-      "Strategic land investments offering flexibility, long-term growth, and future development potential.",
-    image: plot,
+      "Ultra-luxury villas designed for premium living and long-term appreciation.",
   },
   {
-    title: "Commercial SCOs",
+    title: "Corporate Office Space",
+    category: "Commercial",
+    propertyType: "Office Space",
+    location: "Mohali",
+    price: 260,
+    popularity: 82,
+    createdAt: "2025-12-10",
+    image: officeCabin,
     description:
-      "High-yield commercial assets delivering consistent rental income and long-term business value.",
-    image: commercial,
+      "Grade-A office spaces ideal for IT firms and corporate leasing.",
+  },
+  {
+    title: "Retail Mall & Entertainment Zone",
+    category: "Commercial",
+    propertyType: "Mall / Multiplex",
+    location: "Zirakpur",
+    price: 380,
+    popularity: 90,
+    createdAt: "2026-01-05",
+    image: mall,
+    description:
+      "High-footfall malls with retail, food courts, and entertainment facilities.",
+  },
+  {
+    title: "Food & Entertainment Complex",
+    category: "Commercial",
+    propertyType: "Food & Entertainment",
+    location: "Mohali",
+    price: 210,
+    popularity: 85,
+    createdAt: "2025-12-28",
+    image: foodEntertainment,
+    description:
+      "Restaurant clusters and entertainment hubs with strong consumer demand.",
+  },
+  {
+    title: "Hotel & Hospitality Asset",
+    category: "Commercial",
+    propertyType: "Hotel",
+    location: "New Chandigarh",
+    price: 500,
+    popularity: 92,
+    createdAt: "2026-01-01",
+    image: officeReception,
+    description:
+      "Hospitality-focused investments delivering steady long-term revenue.",
+  },
+  {
+    title: "Agricultural Land Parcel",
+    category: "Agricultural",
+    propertyType: "Agricultural Land",
+    location: "New Chandigarh",
+    price: 150,
+    popularity: 60,
+    createdAt: "2025-11-15",
+    image: agriculture,
+    description:
+      "Secure agricultural land investment with future appreciation potential.",
   },
 ];
+
+/* ===============================
+   INPUT STYLE
+================================ */
+const inputBase =
+  "w-full h-[52px] px-4 rounded-xl bg-white text-black text-sm " +
+  "border border-border focus:outline-none focus:border-[#C58A2D]";
+
+/* ===============================
+   CUSTOM SELECT
+================================ */
+const CustomSelect = ({
+  value,
+  onChange,
+  options,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  options: string[];
+}) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setOpen(!open)}
+        className={`${inputBase} flex items-center justify-between`}
+      >
+        <span>{value}</span>
+        <ChevronDown
+          className={`w-4 h-4 text-[#C58A2D] transition-transform ${
+            open ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.ul
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            className="absolute z-50 mt-2 w-full bg-white border border-border rounded-xl shadow-xl"
+          >
+            {options.map((opt) => (
+              <li
+                key={opt}
+                onClick={() => {
+                  onChange(opt);
+                  setOpen(false);
+                }}
+                className="px-4 py-3 text-sm cursor-pointer hover:bg-[#F5EFE6] text-black"
+              >
+                {opt}
+              </li>
+            ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 /* ===============================
    COMPONENT
 ================================ */
 export const InvestorInvestmentTypes = () => {
   const sectionRef = useRef<HTMLDivElement | null>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-120px" });
+  const isInView = useInView(sectionRef, { once: true });
+
+  const [search, setSearch] = useState("");
+  const [location, setLocation] = useState("All");
+  const [category, setCategory] = useState("All");
+  const [propertyType, setPropertyType] = useState("All");
+  const [sortBy, setSortBy] = useState("Latest");
+  const [budget, setBudget] = useState([50, 600]);
+
+  const propertyTypeOptions = useMemo(() => {
+    if (category === "Residential") return ["All", ...PROPERTY_TYPES.Residential];
+    if (category === "Commercial") return ["All", ...PROPERTY_TYPES.Commercial];
+    if (category === "Agricultural")
+      return ["All", ...PROPERTY_TYPES.Agricultural];
+    return ["All"];
+  }, [category]);
+
+  const filteredData = useMemo(() => {
+    const filtered = investmentTypes.filter(
+      (item) =>
+        (location === "All" || item.location === location) &&
+        (category === "All" || item.category === category) &&
+        (propertyType === "All" || item.propertyType === propertyType) &&
+        item.price >= budget[0] &&
+        item.price <= budget[1] &&
+        item.title.toLowerCase().includes(search.toLowerCase())
+    );
+
+    if (sortBy === "Latest") {
+      return filtered.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() -
+          new Date(a.createdAt).getTime()
+      );
+    }
+
+    if (sortBy === "Popularity") {
+      return filtered.sort((a, b) => b.popularity - a.popularity);
+    }
+
+    return filtered;
+  }, [search, location, category, propertyType, budget, sortBy]);
 
   return (
     <section className="py-28 bg-background">
       <div className="max-w-7xl mx-auto px-6">
 
-        {/* ===== Heading ===== */}
+        {/* HEADING */}
         <motion.div
           ref={sectionRef}
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="max-w-3xl mx-auto text-center mb-20"
+          className="text-center mb-16"
         >
-          <p className="text-primary font-medium tracking-[0.25em] uppercase text-sm mb-4">
+          <p className="text-[#C58A2D] tracking-[0.3em] uppercase text-sm mb-4">
             Investment Focus
           </p>
-
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-            Where you can{" "}
-            <span className="gradient-gold-text"> Invest</span>
+          <h2 className="text-4xl font-bold text-white">
+            Where You Can <span className="gradient-gold-text">Invest</span>
           </h2>
-
         </motion.div>
 
-        {/* ===== Cards ===== */}
+        {/* FILTER BAR */}
+        <div className="grid lg:grid-cols-6 gap-6 mb-16 bg-white/10 backdrop-blur-xl p-6 rounded-3xl border border-white/20">
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search property..."
+            className={inputBase}
+          />
+
+          <CustomSelect
+            value={location}
+            onChange={setLocation}
+            options={["All", "New Chandigarh", "Mohali", "Zirakpur"]}
+          />
+
+          <CustomSelect
+            value={category}
+            onChange={(v) => {
+              setCategory(v);
+              setPropertyType("All");
+            }}
+            options={["All", "Residential", "Commercial", "Agricultural"]}
+          />
+
+          <CustomSelect
+            value={propertyType}
+            onChange={setPropertyType}
+            options={propertyTypeOptions}
+          />
+
+          <CustomSelect
+            value={sortBy}
+            onChange={setSortBy}
+            options={["Latest", "Oldest", "Popular"]}
+          />
+
+          <div>
+            <p className="text-sm text-black mb-1">Budget</p>
+            <p className="text-xs text-black mb-2">
+              ₹ {budget[0]}L – ₹ {budget[1]}L
+            </p>
+            <input
+              type="range"
+              min={50}
+              max={600}
+              value={budget[1]}
+              onChange={(e) => setBudget([budget[0], +e.target.value])}
+              className="w-full accent-[#C58A2D]"
+            />
+          </div>
+        </div>
+
+        {/* CARDS */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {investmentTypes.map((item, index) => (
+          {filteredData.map((item) => (
             <motion.div
               key={item.title}
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="group rounded-2xl overflow-hidden bg-card border border-border hover:border-primary transition-all duration-500"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className="rounded-2xl bg-card border border-border hover:border-[#C58A2D] overflow-hidden"
             >
-              {/* Image */}
-              <div className="relative h-72 overflow-hidden">
+              <div className="relative">
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="h-64 w-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+                <span className="absolute top-4 right-4 bg-black/70 text-white text-xs px-3 py-1 rounded-full">
+                  ★ {item.popularity}
+                </span>
               </div>
 
-              {/* Content */}
-              <div className="p-7">
-                <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">
+              <div className="p-6">
+                <h3 className="text-white font-semibold mb-2">
                   {item.title}
                 </h3>
-
-                <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
+                <p className="text-white/70 text-sm mb-4">
                   {item.description}
                 </p>
-
-                <div className="inline-flex items-center gap-2 text-primary font-semibold text-sm">
-                  Explore Investment
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                <div className="flex justify-between items-center text-sm font-semibold">
+                  <span className="text-white">
+                    ₹ {item.price} Lakh+
+                  </span>
+                  <span className="text-[#C58A2D] flex items-center gap-1">
+                    Explore <ArrowRight className="w-4 h-4" />
+                  </span>
                 </div>
               </div>
             </motion.div>
