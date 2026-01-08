@@ -1,6 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import officeReception from "@/assets/property-1.jpg";
+import officeReception from "@/assets/CHR 3.1.png";
 
 export const About = () => {
   const ref = useRef<HTMLDivElement | null>(null);
