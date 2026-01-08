@@ -8,7 +8,6 @@ import { ArrowRight, ChevronDown } from "lucide-react";
 import villa from "@/assets/villa.png";
 import apartment from "@/assets/apartment.png";
 import plot from "@/assets/plot.png";
-
 import officeCabin from "@/assets/office-cabin.jpg";
 import officeReception from "@/assets/cor.png";
 import mall from "@/assets/mall2.jpg";
@@ -16,7 +15,7 @@ import foodEntertainment from "@/assets/food.jpg";
 import agriculture from "@/assets/plot.png";
 
 /* ===============================
-   PROPERTY TYPE MAP
+   PROPERTY TYPES
 ================================ */
 const PROPERTY_TYPES = {
   Residential: [
@@ -160,7 +159,8 @@ const CustomSelect = ({
   return (
     <div className="relative">
       <button
-        onClick={() => setOpen(!open)}
+        type="button"
+        onClick={() => setOpen((p) => !p)}
         className={`${inputBase} flex items-center justify-between`}
       >
         <span>{value}</span>
@@ -177,7 +177,7 @@ const CustomSelect = ({
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
-            className="absolute z-50 mt-2 w-full bg-white border border-border rounded-xl shadow-xl"
+            className="absolute z-[999] mt-2 w-full bg-white border border-border rounded-xl shadow-2xl"
           >
             {options.map((opt) => (
               <li
@@ -213,15 +213,17 @@ export const InvestorInvestmentTypes = () => {
   const [budget, setBudget] = useState([50, 600]);
 
   const propertyTypeOptions = useMemo(() => {
-    if (category === "Residential") return ["All", ...PROPERTY_TYPES.Residential];
-    if (category === "Commercial") return ["All", ...PROPERTY_TYPES.Commercial];
+    if (category === "Residential")
+      return ["All", ...PROPERTY_TYPES.Residential];
+    if (category === "Commercial")
+      return ["All", ...PROPERTY_TYPES.Commercial];
     if (category === "Agricultural")
       return ["All", ...PROPERTY_TYPES.Agricultural];
     return ["All"];
   }, [category]);
 
   const filteredData = useMemo(() => {
-    const filtered = investmentTypes.filter(
+    let data = investmentTypes.filter(
       (item) =>
         (location === "All" || item.location === location) &&
         (category === "All" || item.category === category) &&
@@ -232,22 +234,33 @@ export const InvestorInvestmentTypes = () => {
     );
 
     if (sortBy === "Latest") {
-      return filtered.sort(
+      data.sort(
         (a, b) =>
           new Date(b.createdAt).getTime() -
           new Date(a.createdAt).getTime()
       );
     }
 
-    if (sortBy === "Popularity") {
-      return filtered.sort((a, b) => b.popularity - a.popularity);
+    if (sortBy === "Oldest") {
+      data.sort(
+        (a, b) =>
+          new Date(a.createdAt).getTime() -
+          new Date(b.createdAt).getTime()
+      );
     }
 
-    return filtered;
+    if (sortBy === "Popular") {
+      data.sort((a, b) => b.popularity - a.popularity);
+    }
+
+    return data;
   }, [search, location, category, propertyType, budget, sortBy]);
 
   return (
-    <section className="py-28 bg-background">
+    <section
+      id="properties"
+      className="py-28 bg-background relative"
+    >
       <div className="max-w-7xl mx-auto px-6">
 
         {/* HEADING */}
@@ -266,7 +279,7 @@ export const InvestorInvestmentTypes = () => {
         </motion.div>
 
         {/* FILTER BAR */}
-        <div className="grid lg:grid-cols-6 gap-6 mb-16 bg-white/10 backdrop-blur-xl p-6 rounded-3xl border border-white/20">
+        <div className="relative z-[100] grid lg:grid-cols-6 gap-6 mb-16 bg-white/10 backdrop-blur-xl p-6 rounded-3xl border border-white/20">
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -298,7 +311,7 @@ export const InvestorInvestmentTypes = () => {
           <CustomSelect
             value={sortBy}
             onChange={setSortBy}
-            options={["Latest", "Oldest", "Popular"]}
+            options={["Latest", "Popular", "Oldest"]}
           />
 
           <div>
@@ -318,19 +331,20 @@ export const InvestorInvestmentTypes = () => {
         </div>
 
         {/* CARDS */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 relative z-10">
           {filteredData.map((item) => (
             <motion.div
               key={item.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              className="rounded-2xl bg-card border border-border hover:border-[#C58A2D] overflow-hidden"
+              viewport={{ once: true }}
+              className="rounded-2xl bg-card border border-border hover:border-[#C58A2D]"
             >
               <div className="relative">
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="h-64 w-full object-cover"
+                  className="h-64 w-full object-cover rounded-t-2xl"
                 />
                 <span className="absolute top-4 right-4 bg-black/70 text-white text-xs px-3 py-1 rounded-full">
                   ★ {item.popularity}
