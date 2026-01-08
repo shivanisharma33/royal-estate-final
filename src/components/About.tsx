@@ -1,6 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import officeReception from "@/assets/CHR 3.1.png";
+import officeReception from "@/assets/CHR 3.3.png";
 
 export const About = () => {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -16,11 +16,8 @@ export const About = () => {
       <div className="absolute bottom-0 right-0 w-[320px] h-[320px] bg-primary/5 rounded-full blur-[120px]" />
 
       <div className="container-luxury relative z-10">
-        <div
-          ref={ref}
-          className="grid lg:grid-cols-12 gap-16 items-center"
-        >
-          {/* LEFT – EDITORIAL CONTENT */}
+        <div ref={ref} className="grid lg:grid-cols-12 gap-16 items-center">
+          {/* LEFT – CONTENT */}
           <motion.div
             initial={{ opacity: 0, y: 60 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -28,7 +25,6 @@ export const About = () => {
             className="lg:col-span-6"
           >
             <div className="relative pl-6">
-              {/* Vertical Accent */}
               <span className="absolute left-0 top-0 h-full w-[2px] bg-gradient-to-b from-primary via-primary/40 to-transparent" />
 
               <p className="text-primary tracking-[0.3em] uppercase text-xs mb-5">
@@ -62,25 +58,22 @@ export const About = () => {
             </div>
           </motion.div>
 
-          {/* RIGHT – IMAGE & STATS */}
+          {/* RIGHT – IMAGE + STATS */}
           <motion.div
             initial={{ opacity: 0, y: 60 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.9, delay: 0.2 }}
             className="lg:col-span-6 relative"
           >
-            {/* Image Stack */}
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl gold-border-glow">
+            {/* Image Container (NO CUT, NO STRETCH) */}
+            <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl gold-border-glow bg-black/10">
               <img
                 src={officeReception}
                 alt="Chandigarh Royal Office"
-                className="w-full h-[460px] object-cover"
+                className="absolute inset-0 w-full h-full object-contain"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/70 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/70 to-transparent pointer-events-none" />
             </div>
-
-            {/* Floating Experience Card */}
-        
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-5 mt-16">
