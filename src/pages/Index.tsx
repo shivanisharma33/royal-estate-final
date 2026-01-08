@@ -29,12 +29,13 @@ const Index = () => {
       <main className="min-h-screen bg-background">
         <Navbar />
         <Hero />
+           {/* ✅ Investor Investment Section */}
+        <InvestorInvestmentTypes />
         <About />
         <Services />
         <Investors />
 
-        {/* ✅ Investor Investment Section */}
-        <InvestorInvestmentTypes />
+     
 
         <Areas />
         <WhyChooseUs />
