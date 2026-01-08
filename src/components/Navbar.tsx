@@ -36,24 +36,26 @@ export const Navbar = () => {
       }`}
     >
       <div className="container-luxury">
-        <div className="flex items-center justify-between h-20 md:h-24">
+        <div className="flex items-center justify-between h-24 md:h-24">
           
-          {/* LOGO (INCREASED SIZE) */}
-          <a href="#home" className="flex items-center">
-           <img
-  src={logo}
-  alt="Chandigarh Royal Real Estate"
-  className="
-    h-20 w-32
-    md:h-28 md:w-44
-    lg:h-32 lg:w-52
-    transition-all duration-300
-    object-contain
-    drop-shadow-[0_0_28px_rgba(212,165,116,0.6)]
-  "
-/>
+        {/* LOGO (INCREASED ON ALL SCREENS) */}
+<a href="#home" className="flex items-center">
+  <img
+    src={logo}
+    alt="Chandigarh Royal Real Estate"
+    className="
+      h-40 w-64        /* mobile */
+      sm:h-44 sm:w-72
+      md:h-48 md:w-80
+      lg:h-52 lg:w-96
+      xl:h-56 xl:w-[400px]
+      transition-all duration-300
+      object-contain
+      drop-shadow-[0_0_28px_rgba(212,165,116,0.6)]
+    "
+  />
+</a>
 
-          </a>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
@@ -81,7 +83,7 @@ export const Navbar = () => {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="lg:hidden p-2 text-foreground hover:text-primary transition-colors"
           >
-            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            {isMobileMenuOpen ? <X size={30} /> : <Menu size={30} />}
           </button>
         </div>
       </div>
@@ -110,6 +112,7 @@ export const Navbar = () => {
                   {item.label}
                 </motion.a>
               ))}
+
               <a
                 href="#contact"
                 onClick={() => setIsMobileMenuOpen(false)}
