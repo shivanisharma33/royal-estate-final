@@ -315,8 +315,8 @@ export const InvestorInvestmentTypes = () => {
           />
 
           <div>
-            <p className="text-sm text-black mb-1">Budget</p>
-            <p className="text-xs text-black mb-2">
+            <p className="text-sm text-white mb-1">Budget</p>
+            <p className="text-xs text-white mb-2">
               ₹ {budget[0]}L – ₹ {budget[1]}L
             </p>
             <input
